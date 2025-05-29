@@ -27,41 +27,39 @@ public class MenuController {
 
     @FXML
     private void showUpdateProductForm() {
-        formService.loadForm("/ee.ivkhkdev.PhoneShopJavaFX/phone/updateProductForm.fxml", "Редактирование товара");
+        formService.loadForm("/ee/ivkhkdev/ProductShopJavaFX/products/updateProductForm.fxml", "Редактирование товара");
     }
 
     @FXML
     private void showNewCustomerForm() {
-        formService.loadForm("/ee.ivkhkdev.PhoneShopJavaFX/customer/newCustomerForm.fxml", "Добавление клиента");
+        formService.loadForm("/ee/ivkhkdev/ProductShopJavaFX/customer/newCustomerForm.fxml", "Добавление клиента");
     }
 
     @FXML
     private void showListCustomers() {
-        formService.loadForm("/ee.ivkhkdev.PhoneShopJavaFX/customer/listCustomersForm.fxml", "Список клиентов");
+        formService.loadForm("/ee/ivkhkdev/ProductShopJavaFX/customer/listCustomersForm.fxml", "Список клиентов");
     }
 
     @FXML
     private void showUpdateCustomerForm() {
-        formService.loadForm("/ee.ivkhkdev.PhoneShopJavaFX/customer/updateCustomerForm.fxml", "Редактирование клиента");
+        formService.loadForm("/ee/ivkhkdev/ProductShopJavaFX/customer/updateCustomerForm.fxml", "Редактирование клиента");
     }
 
     @FXML
     private void processPurchase() {
-        formService.loadForm("/ee.ivkhkdev.PhoneShopJavaFX/purchase/processPurchaseForm.fxml", "Покупка товара");
+        formService.loadForm("/ee/ivkhkdev/ProductShopJavaFX/purchase/processPurchaseForm.fxml", "Покупка товара");
     }
 
     @FXML
     private void showListPurchases() {
-        formService.loadForm("/ee.ivkhkdev.PhoneShopJavaFX/purchase/listPurchasesForm.fxml", "Список покупок");
+        formService.loadForm("/ee/ivkhkdev/ProductShopJavaFX/purchase/listPurchasesForm.fxml", "Список покупок");
     }
 
     @FXML
     private void calculateProfit() {
-        formService.loadForm("/ee.ivkhkdev.PhoneShopJavaFX/profit/calculateProfitForm.fxml", "Расчет прибыли");
+        formService.loadForm("/ee/ivkhkdev/ProductShopJavaFX//profit/calculateProfitForm.fxml", "Расчет прибыли");
     }
 
-    @FXML
-    private void showAdminPanel() {
-        formService.loadForm("/ee.ivkhkdev.PhoneShopJavaFX/admin/adminPanelForm.fxml", "Панель администратора");
-    }
+
+
 }

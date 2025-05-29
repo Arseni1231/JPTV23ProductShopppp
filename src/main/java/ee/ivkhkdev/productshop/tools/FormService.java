@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.net.URL;
 
 @Component
 public class FormService {
@@ -24,23 +25,23 @@ public class FormService {
 
     public void loadForm(String fxmlPath, String title) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlPath));
-            Parent root = fxmlLoader.load();
-            Scene scene = new Scene(root);
-            getPrimaryStage().setScene(scene);
-            getPrimaryStage().setTitle(title);
-            getPrimaryStage().centerOnScreen();
-            getPrimaryStage().show();
-        } catch (IOException e) {
+            FXMLLoader loader = springFXMLLoader.load(fxmlPath);
+            Parent root = loader.load();
+            Stage stage = getPrimaryStage();
+            stage.setScene(new Scene(root));
+            stage.setTitle(title);
+            stage.centerOnScreen();
+            stage.show();
+        }catch (IOException e) {
             throw new RuntimeException("Ошибка загрузки формы: " + fxmlPath, e);
         }
     }
 
     public void loadLoginForm() {
-        FXMLLoader loader = springFXMLLoader.load("/ee/ivkhkdev/ProductShopJavaFX/login/login.fxml");
+        FXMLLoader loader = springFXMLLoader.load("/ee/ivkhkdev/ProductShopJavaFx/login/login.fxml");
         try {
             Parent root = loader.load();
-            Stage stage = new Stage();
+            Stage stage = getPrimaryStage();
             stage.setScene(new Scene(root));
             stage.setTitle("Вход");
             stage.show();
@@ -52,15 +53,15 @@ public class FormService {
 
 
     public void loadRegistrationForm() {
-        loadForm("/ee.ivkhkdev.ProductShopJavaFX/registration/registration.fxml", "Productshop - Регистрация пользователя");
+        loadForm("/ee/ivkhkdev/ProductShopJavaFx/registration/registration.fxml", "Productshop - Регистрация пользователя");
     }
 
     public void loadMainForm() {
-        loadForm("/ee.ivkhkdev.ProdcutShopJavaFX/main/mainForm.fxml", "Productshop - Главная");
+        loadForm("/ee/ivkhkdev/ProductShopJavaFx/main/mainForm.fxml", "Productshop - Главная");
     }
 
     public void loadNewProductForm() {
-        loadForm("/ee.ivkhkdev.ProductShopJavaFX/product/newProductForm.fxml", "Productshop - Добавление товара");
+        loadForm("/ee/ivkhkdev/ProductShopJavaFx/product/newProductForm.fxml", "Productshop - Добавление товара");
     }
 
 }

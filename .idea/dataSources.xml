@@ -16,12 +16,13 @@
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="PhoneShop" uuid="692200b9-8004-4ac5-a06a-35a4f99c5fa6">
+    <data-source source="LOCAL" name="productShop" uuid="a909f03f-931a-4337-b9d0-222b44babd5a">
       <driver-ref>h2.unified</driver-ref>
       <synchronize>true</synchronize>
       <imported>true</imported>
+      <remarks>$PROJECT_DIR$/src/main/resources/application.properties</remarks>
       <jdbc-driver>org.h2.Driver</jdbc-driver>
-      <jdbc-url>jdbc:h2:./H2/phoneShop</jdbc-url>
+      <jdbc-url>jdbc:h2:./H2/productShop</jdbc-url>
       <jdbc-additional-properties>
         <property name="com.intellij.clouds.kubernetes.db.host.port" />
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />

@@ -22,6 +22,7 @@ public class Product {
     @Column(nullable = false)
     private int amount;
 
+    // Конструкторы
     public Product() {}
 
     public Product(String name, float price, int amount) {
@@ -30,12 +31,24 @@ public class Product {
         this.amount = amount;
     }
 
-    public Long getId() { return id; }
-    public String getName() { return name; }
-    public float getPrice() { return price; }
-    public int getAmount() { return amount; }
+    // Геттеры
+    public Long getId() {
+        return id;
+    }
 
+    public String getName() {
+        return name;
+    }
 
+    public float getPrice() {
+        return price;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    // Сеттеры
     public void setId(Long id) {
         this.id = id;
     }
@@ -52,22 +65,34 @@ public class Product {
         this.amount = amount;
     }
 
-    // JavaFX Properties
-    public LongProperty idProperty() { return new SimpleLongProperty(id); }
-    public StringProperty nameProperty() { return new SimpleStringProperty(name); }
-    public FloatProperty priceProperty() { return new SimpleFloatProperty(price); }
-    public IntegerProperty amountProperty() { return new SimpleIntegerProperty(amount); }
+    // JavaFX свойства
+    public LongProperty idProperty() {
+        return new SimpleLongProperty(this.id != null ? this.id : 0L);
+    }
 
+    public StringProperty nameProperty() {
+        return new SimpleStringProperty(this.name);
+    }
+
+    public FloatProperty priceProperty() {
+        return new SimpleFloatProperty(this.price);
+    }
+
+    public IntegerProperty amountProperty() {
+        return new SimpleIntegerProperty(this.amount);
+    }
+
+    // equals и hashCode — только по id, если он есть
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Product)) return false;
         Product product = (Product) o;
-        return Objects.equals(name, product.name);
+        return Objects.equals(id, product.id); // сравнение по id
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name);
+        return Objects.hash(id);
     }
 }

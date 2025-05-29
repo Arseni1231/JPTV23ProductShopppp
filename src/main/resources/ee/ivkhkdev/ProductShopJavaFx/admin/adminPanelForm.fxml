@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ee.ivkhkdev.productshop.controller.AdminPanelController">
+    <children>
+        <Label alignment="CENTER" prefHeight="17.0" prefWidth="483.0" text="Панель администратора" />
+
+        <Button onAction="#goToMainForm" prefHeight="25.0" prefWidth="501.0" text="Назад" />
+    </children>
+</VBox>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox prefHeight="142.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ee.ivkhkdev.productshop.controller.MenuFormController">
+    <children>
+        <!-- Кнопки для всех пользователей -->
+        <Button fx:id="btnProductList" onAction="#showProductList" text="Список товаров" />
+        <!-- Кнопки для администраторов, по умолчанию скрыты -->
+        <Button fx:id="btnUserManagement" onAction="#showUserManagement" text="Управление пользователями" visible="false" />
+        <Button fx:id="btnCart" onAction="#showBasket" text="Корзина" />
+        <!-- Добавьте другие элементы, которые должны быть видны только администратору -->
+        <Button fx:id="btnManageProducts" onAction="#showManageProducts" opacity="0.98" text="Управление товарами" visible="false" />
+        <Button fx:id="btnManageOrders" onAction="#showOrderHistory" text="История покупок" visible="false" />
+        <Button fx:id="btnAddProduct" onAction="#showAddProduct" text="Добавить продукт" visible="false" />
+        <Button fx:id="btnLogout" onAction="#logout" text="Выход" />
+    </children>
+</VBox>

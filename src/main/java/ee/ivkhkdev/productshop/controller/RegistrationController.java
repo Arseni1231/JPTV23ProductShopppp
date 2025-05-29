@@ -21,7 +21,7 @@ public class RegistrationController {
     private final AppUserService appUserService;
     private final FormService formService;
 
-    @Autowired
+
     public RegistrationController(AppUserService appUserService, FormService formService) {
         this.appUserService = appUserService;
         this.formService = formService;

@@ -1,5 +1,6 @@
 package ee.ivkhkdev.productshop.controller;
 
+import ee.ivkhkdev.productshop.JPTV23ProductShopApplication;
 import ee.ivkhkdev.productshop.model.entity.Product;
 import ee.ivkhkdev.productshop.services.ProductService;
 import ee.ivkhkdev.productshop.tools.FormService;
@@ -26,6 +27,7 @@ public class NewProductFormController {
         this.formService = formService;
     }
 
+
     @FXML
     private void addProduct() {
         String name = tfName.getText();
@@ -48,12 +50,18 @@ public class NewProductFormController {
                 return;
             }
 
+            // Создаем продукт и сохраняем в базу данных
             Product product = new Product(name, price, amount);
-            productService.addProduct(product);
-            lbInfo.setText("Продукт успешно добавлен.");
+            Product savedProduct = productService.addProduct(product);
+
+            // Добавляем в корзину продукт С ID
+            JPTV23ProductShopApplication.currentUser.getBasket().getProducts().add(savedProduct);
+
+            lbInfo.setText("Товар добавлен в корзину (ID: " + savedProduct.getId() + ")");
             lbInfo.setStyle("-fx-text-fill: green;");
-        } catch (NumberFormatException e) {
-            lbInfo.setText("Некорректный формат данных.");
+
+        } catch (Exception e) {
+            lbInfo.setText("Ошибка: " + e.getMessage());
             lbInfo.setStyle("-fx-text-fill: red;");
         }
     }
@@ -62,4 +70,6 @@ public class NewProductFormController {
     private void goToMainForm() {
         formService.loadMainForm();
     }
+
+
 }

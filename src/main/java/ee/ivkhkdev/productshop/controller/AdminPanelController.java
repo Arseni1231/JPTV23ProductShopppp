@@ -15,8 +15,25 @@ public class AdminPanelController {
         this.formService = formService;
     }
 
+
+
+    @FXML
+    private void showUserManagement() {
+        formService.loadForm("/ee/ivkhkdev/ProductShopJavaFX/customer/updateCustomerForm.fxml", "Управление пользователями");
+    }
+
+    @FXML
+    private void showManageProducts() {
+        formService.loadForm("/ee/ivkhkdev/ProductShopJavaFX/products/updateProductForm.fxml", "Управление товарами");
+    }
+
+    @FXML
+    private void showOrderHistory() {
+        formService.loadForm("/ee/ivkhkdev/ProductShopJavaFX/order/orderHistoryForm.fxml", "История заказов");
+    }
+
     @FXML
     private void goToMainForm() {
-        formService.loadMainForm();
+        formService.loadForm("/ee/ivkhkdev/ProductShopJavaFX/menu/menuForm.fxml", "Главное меню");
     }
 }

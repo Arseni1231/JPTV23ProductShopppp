@@ -1,9 +1,11 @@
 package ee.ivkhkdev.productshop.controller;
 
 import ee.ivkhkdev.productshop.JPTV23ProductShopApplication;
+import ee.ivkhkdev.productshop.model.entity.Basket;
 import ee.ivkhkdev.productshop.model.entity.Product;
 import ee.ivkhkdev.productshop.services.ProductService;
 import ee.ivkhkdev.productshop.tools.FormService;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -11,15 +13,24 @@ import javafx.scene.control.Label;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 public class BasketController {
 
-    @FXML private TableView<Product> tvBasket;
-    @FXML private TableColumn<Product, String> tcName;
-    @FXML private TableColumn<Product, Float> tcPrice;
-    @FXML private TableColumn<Product, Integer> tcAmount;
-    @FXML private Label lbInfo;
-    @FXML private Label lbTotalPrice;
+    @FXML
+    private TableView<Product> tvBasket;
+    @FXML
+    private TableColumn<Product, String> tcName;
+    @FXML
+    private TableColumn<Product, Float> tcPrice;
+    @FXML
+    private TableColumn<Product, Integer> tcAmount;
+    @FXML
+    private Label lbInfo;
+    @FXML
+    private Label lbTotalPrice;
 
     private final FormService formService;
     private final ProductService productService;
@@ -62,40 +73,54 @@ public class BasketController {
         }
     }
 
+
     @FXML
     private void purchase() {
         try {
-            for (Product product : JPTV23ProductShopApplication.currentUser.getBasket().getProducts()) {
-                if (product.getId() == null) {
-                    // Продукт без ID, возможно это новый продукт или ошибка в базе данных
-                    throw new IllegalArgumentException("Продукт не имеет идентификатора: " + product.getName());
-                }
+            Basket basket = JPTV23ProductShopApplication.currentUser.getBasket();
+            List<Product> basketProducts = new ArrayList<>(basket.getProducts());
 
-                // Ищем продукт по ID в базе данных
-                Product storedProduct = productService.getProductById(product.getId())
-                        .orElseThrow(() -> new IllegalArgumentException("Продукт не найден с ID: " + product.getId()));
-
-                // Проверяем наличие достаточного количества товара
-                if (storedProduct.getAmount() < product.getAmount()) {
-                    throw new IllegalArgumentException("Недостаточно товара на складе для продукта с ID " + product.getId());
-                }
-
-                // Обновляем количество товара на складе
-                storedProduct.setAmount(storedProduct.getAmount() - product.getAmount());
-                productService.updateProduct(storedProduct);
+            // 1. Проверка корзины
+            if (basketProducts.isEmpty()) {
+                throw new IllegalArgumentException("Корзина пуста");
             }
 
-            // Очищаем корзину после успешной покупки
-            JPTV23ProductShopApplication.currentUser.getBasket().clearBasket();
-            lbInfo.setText("Покупка успешно завершена.");
-            lbInfo.setStyle("-fx-text-fill: green;");
+            // 2. Проверка наличия ID у всех продуктов
+            for (Product product : basketProducts) {
+                if (product.getId() == null) {
+                    throw new IllegalStateException(
+                            "Найден продукт без ID: " + product.getName() + ". " +
+                                    "Добавляйте в корзину только сохранённые в БД товары!"
+                    );
+                }
+            }
+
+            // 3. Выполнение покупки
+            productService.purchaseProducts(basketProducts);
+
+            // 4. Очистка корзины
+            basket.clearBasket();
+            showSuccess("Покупка успешно завершена!");
             loadBasket();
 
-        } catch (IllegalArgumentException e) {
-            lbInfo.setText(e.getMessage());
-            lbInfo.setStyle("-fx-text-fill: red;");
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            showError(e.getMessage());
+        } catch (Exception e) {
+            showError("Системная ошибка при оформлении заказа");
+            e.printStackTrace();
         }
     }
+
+    private void showSuccess(String message) {
+        lbInfo.setText(message);
+        lbInfo.setStyle("-fx-text-fill: green;");
+    }
+
+    private void showError(String message) {
+        lbInfo.setText(message);
+        lbInfo.setStyle("-fx-text-fill: red;");
+    }
+
 
 
 

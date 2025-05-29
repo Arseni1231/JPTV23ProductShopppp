@@ -11,12 +11,18 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class MenuFormController {
 
+
+
     @FXML
     private Button btnProductList;
     @FXML
     private Button btnCart;
     @FXML
     private Button btnLogout;
+    @FXML
+    private Button btnAddProduct;
+
+    private Button btnAdminPanel;
     @FXML
     private Button btnUserManagement;
     @FXML
@@ -33,15 +39,17 @@ public class MenuFormController {
 
     @FXML
     private void initialize() {
+
         // Проверяем роль текущего пользователя и настраиваем видимость кнопок
         AppUser currentUser = JPTV23ProductShopApplication.currentUser;
         if (currentUser != null && currentUser.getRole() == AppUser.Role.ADMIN) {
-
+            btnAddProduct.setVisible(true);
             btnUserManagement.setVisible(true);
             btnManageProducts.setVisible(true);  // Показываем кнопку для управления товарами
             btnManageOrders.setVisible(true);    // Показываем кнопку для управления заказами
         } else {
             // Если не администратор, скрываем кнопки для администрирования
+            btnAddProduct.setDisable(false);
             btnUserManagement.setVisible(false);
             btnManageProducts.setVisible(false);  // Скрываем кнопку для управления товарами
             btnManageOrders.setVisible(false);    // Скрываем кнопку для управления заказами
@@ -50,12 +58,12 @@ public class MenuFormController {
 
     @FXML
     private void showProductList() {
-        formService.loadForm("/ee.ivkhkdev.PhoneShopJavaFX/product/productListForm.fxml", "Список товаров");
+        formService.loadForm("/ee/ivkhkdev/ProductShopJavaFX/product/productListForm.fxml", "Список товаров");
     }
 
     @FXML
     private void showBasket() {
-        formService.loadForm("/ee.ivkhkdev.PhoneShopJavaFX/cart/basketForm.fxml", "Корзина");
+        formService.loadForm("/ee/ivkhkdev/ProductShopJavaFX/cart/basketForm.fxml", "Корзина");
     }
 
     @FXML
@@ -67,17 +75,22 @@ public class MenuFormController {
 
     @FXML
     private void showUserManagement() {
-        formService.loadForm("/ee.ivkhkdev.PhoneShopJavaFX/customer/updateCustomerForm.fxml", "Управление пользователями");
+        formService.loadForm("/ee/ivkhkdev/ProductShopJavaFX/customer/updateCustomerForm.fxml", "Управление пользователями");
     }
 
     // Новый метод для отображения формы управления товарами
     @FXML
     private void showManageProducts() {
-        formService.loadForm("/ee.ivkhkdev.PhoneShopJavaFX/phone/updateProductForm.fxml", "Управление товарами");
+        formService.loadForm("/ee/ivkhkdev/ProductShopJavaFX/products/updateProductForm.fxml", "Управление товарами");
     }
 
     @FXML
     private void showOrderHistory() {
-        formService.loadForm("/ee.ivkhkdev.PhoneShopJavaFX/order/orderHistoryForm.fxml", "История заказов");
+        formService.loadForm("/ee/ivkhkdev/ProductShopJavaFX/order/orderHistoryForm.fxml", "История заказов");
+    }
+
+    @FXML
+    private void showAddProduct() {
+        formService.loadForm("/ee/ivkhkdev/ProductShopJavaFX/products/newProductForm.fxml", "Добавить товар");
     }
 }

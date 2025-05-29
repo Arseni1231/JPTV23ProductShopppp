@@ -2,6 +2,7 @@ package ee.ivkhkdev.productshop.services;
 
 import ee.ivkhkdev.productshop.model.entity.Product;
 import ee.ivkhkdev.productshop.model.repositories.ProductRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,12 +27,14 @@ public class ProductService {
         return productRepository.findById(id);
     }
 
-    public void addProduct(Product product) {
-        if (product.getPrice() > 0 && product.getAmount() > 0) {
-            productRepository.save(product);
-        } else {
+    @Transactional
+    public Product addProduct(Product product) {
+        if (product.getPrice() <= 0 || product.getAmount() <= 0) {
             throw new IllegalArgumentException("Цена и количество должны быть положительными");
         }
+        Product savedProduct = productRepository.save(product);
+        System.out.println("Сохранён продукт с ID: " + savedProduct.getId());  // Логируем
+        return savedProduct;
     }
 
     public void updateProduct(Product product) {
@@ -47,6 +50,22 @@ public class ProductService {
             productRepository.deleteById(id);
         } else {
             throw new IllegalArgumentException("Продукт не найден");
+        }
+    }
+
+
+    @Transactional
+    public void purchaseProducts(List<Product> basketProducts) {
+        for (Product basketProduct : basketProducts) {
+            Product dbProduct = productRepository.findById(basketProduct.getId())
+                    .orElseThrow(() -> new IllegalArgumentException("Товар не найден"));
+
+            if (dbProduct.getAmount() < basketProduct.getAmount()) {
+                throw new IllegalStateException("Недостаточно товара");
+            }
+
+            dbProduct.setAmount(dbProduct.getAmount() - basketProduct.getAmount());
+            productRepository.save(dbProduct);
         }
     }
 
